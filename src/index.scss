@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-slate-900 font-body px-5;
+    }
+}
+
+@layer components {
+    .page-container {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+    .movie-tag {
+        max-width: 200px;
+        padding: 6px 10px;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+    }
+    .movie-list .swiper-slide{
+        width: 100%;
+        height: auto;
+        
+
+    }
+}
