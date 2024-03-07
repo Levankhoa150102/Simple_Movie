@@ -1,16 +1,13 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import { fetcher } from "../config";
+import { fetcher, tmdbApI } from "../config";
 import useSWR from "swr";
 import MovieCard from "../components/movie/MovieCard";
 import { SwiperSlide, Swiper } from "swiper/react";
 import "swiper/css";
 const MovieDetailPage = () => {
   const { movieID } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieID}?api_key=8341ccf075581294587c2c52d983fcf3`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbApI.getMovieDetail(movieID), fetcher);
 
   const {
     backdrop_path,
@@ -31,12 +28,12 @@ const MovieDetailPage = () => {
         <div
           className="w-full h-full bg-no-repeat bg-cover"
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`,
+            backgroundImage: `url(${tmdbApI.imageOriginal(backdrop_path)})`,
           }}
         >
           <div className="flex absolute">
             <img
-              src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+              src={`${tmdbApI.image500(poster_path)}`}
               alt="movie"
               className="w-100 h-[600px] rounded-lg"
             ></img>
@@ -124,10 +121,7 @@ const MovieDetailPage = () => {
 
 function MovieCredits() {
   const { movieID } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=8341ccf075581294587c2c52d983fcf3`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbApI.getMovieCredits(movieID), fetcher);
   const { cast } = data || {};
   return (
     <Fragment>
@@ -137,7 +131,7 @@ function MovieCredits() {
             return index < 4 ? (
               <div className="cast-item">
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
+                  src={tmdbApI.image500(item.profile_path)}
                   alt={item.name}
                   className="w-full h-[300px] object-cover rounded-lg"
                 ></img>
@@ -153,10 +147,7 @@ function MovieCredits() {
 
 function MovieTrailer() {
   const { movieID } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieID}/videos?api_key=8341ccf075581294587c2c52d983fcf3`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbApI.getMovieTrailer(movieID), fetcher);
   return (
     <Fragment>
       <iframe
@@ -173,10 +164,7 @@ function MovieTrailer() {
 }
 function SimilarMovie() {
   const { movieID } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieID}/similar?api_key=8341ccf075581294587c2c52d983fcf3`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbApI.getSimilarMovie(movieID), fetcher);
   return (
     <Fragment>
       <Swiper slidesPerView={4} spaceBetween={30} className="my-5">

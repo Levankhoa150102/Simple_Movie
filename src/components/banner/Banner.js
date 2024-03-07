@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
+import Button from "../button/Button";
 const Banner = () => {
   const { data, error } = useSWR(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=8341ccf075581294587c2c52d983fcf3`,
@@ -47,12 +48,9 @@ const Banner = () => {
                           <button className="movie-tag">{genre.name}</button>
                         ))}
                     </div>
-                    <button
-                      onClick={() => navigate(`/movies/${item.id}`)}
-                      className="py-3 px-6 my-3 rounded-lg bg-primary hover:opacity-50 text-white font-bold"
-                    >
+                    <Button onClick={() => navigate(`/movies/${item.id}`)}>
                       Watch Now
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </SwiperSlide>
